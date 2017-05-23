@@ -5,6 +5,7 @@ a easypermissions extends with a custiomized dialog
 #用法   
 1. 使用自定义对话框, 实现PermissionWithDialogCallbacks接口   
 1. 使用easypermissions自带对话框, 实现PermissionCallbacks接口   
+
 #待定事宜   
 1. 增加settings自带对话框   
 
