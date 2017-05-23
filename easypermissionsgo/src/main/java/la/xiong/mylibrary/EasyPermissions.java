@@ -126,7 +126,6 @@ public class EasyPermissions {
                     });
                 }
             } else {
-                //TODO 调用easypermission自带的dialog
                 showRationaleDialogFragment(
                         activity.getFragmentManager(),
                         activity.getString(R.string.title_rationale_dialog),

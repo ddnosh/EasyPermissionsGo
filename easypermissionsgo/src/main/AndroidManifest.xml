@@ -2,9 +2,13 @@
 
     package="la.xiong.mylibrary">
 
-    <application android:allowBackup="true" android:label="@string/app_name"
+    <application android:allowBackup="true"
         android:supportsRtl="true">
-
+        <activity
+            android:name="la.xiong.mylibrary.AppSettingsDialogHolderActivity"
+            android:exported="false"
+            android:label=""
+            android:theme="@style/EasyPermissions.Transparent"/>
     </application>
 
 </manifest>

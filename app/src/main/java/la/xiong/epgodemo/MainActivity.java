@@ -4,10 +4,12 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 
+import la.xiong.mylibrary.AppSettingsDialog;
 import la.xiong.mylibrary.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionWithDialogCallbacks{
@@ -21,7 +23,15 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EasyPermissions.requestPermissions(this, 1, RC_LOCATION_PERM, perms);
+        EasyPermissions.requestPermissions(this, RC_LOCATION_PERM, perms);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
@@ -31,7 +41,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).build().show();
+        }
     }
 
     @Override
