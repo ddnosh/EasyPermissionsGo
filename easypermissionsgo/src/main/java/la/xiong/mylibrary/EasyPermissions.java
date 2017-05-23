@@ -24,6 +24,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -37,6 +39,7 @@ import java.util.List;
 public class EasyPermissions {
 
     private static final String TAG = "EasyPermissions";
+    private static final String DIALOG_TAG = "RationaleDialogFragmentCompat";
 
     /**
      * 自带对话框的回调
@@ -89,15 +92,15 @@ public class EasyPermissions {
     }
 
     public static void requestPermissions(Object object, int requestCode, String... perms) {
-        requestPermissions(object, 0, requestCode, false, perms);
+        requestPermissions(object, 0, requestCode, android.R.string.ok, android.R.string.cancel, false, perms);
     }
 
     public static void requestPermissions(Object object, int dialogType, int requestCode, String... perms) {
-        requestPermissions(object, dialogType, requestCode, true, perms);
+        requestPermissions(object, dialogType, requestCode, 0, 0, true, perms);
     }
 
     public static void requestPermissions(final Object object, int dialogType,
-                                          final int requestCode, boolean isAppDialog, final String... perms) {
+                                          final int requestCode, int positiveButton, int negativeButton, boolean isAppDialog, final String... perms) {
 
         checkCallingObjectSuitability(object);
 
@@ -124,6 +127,13 @@ public class EasyPermissions {
                 }
             } else {
                 //TODO 调用easypermission自带的dialog
+                showRationaleDialogFragment(
+                        activity.getFragmentManager(),
+                        activity.getString(R.string.title_rationale_dialog),
+                        positiveButton,
+                        negativeButton,
+                        requestCode,
+                        perms);
             }
 
         } else {
@@ -343,6 +353,21 @@ public class EasyPermissions {
         } catch (ClassNotFoundException e) {
             return false;
         }
+    }
+
+    /**
+     * Show a {@link RationaleDialogFragment} explaining permission request rationale.
+     */
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    private static void showRationaleDialogFragment(@NonNull android.app.FragmentManager fragmentManager,
+                                                    @NonNull String rationale,
+                                                    @StringRes int positiveButton,
+                                                    @StringRes int negativeButton,
+                                                    int requestCode,
+                                                    @NonNull String... perms) {
+        RationaleDialogFragment
+                .newInstance(positiveButton, negativeButton, rationale, requestCode, perms)
+                .show(fragmentManager, DIALOG_TAG);
     }
 
 }
