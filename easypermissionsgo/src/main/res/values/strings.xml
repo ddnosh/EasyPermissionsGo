@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">My Library</string>
     <string name="title_rationale_dialog">Permissions Required</string>
-    <string name="title_setting_dialog">Setting Permissions Required</string>
+    <string name="rationale_ask_again">This app may not work correctly without the requested permissions. Open the app settings screen to modify app permissions.</string>
 </resources>
